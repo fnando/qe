@@ -23,12 +23,23 @@ require "qe/delayed_job"
 require "qe/beanstalk"
 ```
 
-If you're using Rails with Bundler, you can simple require the correct file.
+You also need to require the library you're going to use. If you're using Rails with Bundler, you can simple require the correct file and dependency.
 
 ``` ruby
 source :rubygems
 gem "rails", "3.2.8"
+
+gem "sidekiq"
 gem "qe", :require => "qe/sidekiq"
+
+gem "resque"
+gem "qe", :require => "qe/resque"
+
+gem "qu"
+gem "qe", :require => "qe/qu"
+
+gem "backburner"
+gem "qe", :require => "qe/beanstalk"
 ```
 
 Create a worker that will send e-mails through `ActionMailer`.
