@@ -1,6 +1,5 @@
 # Qe
 
-
 A simple interface over several background job libraries like Resque, Sidekiq and DelayedJob.
 
 ## Usage
@@ -9,11 +8,11 @@ In this wild world where a new asynchronous job processing
 library is released every once in a while, Qe tries to keep a unified
 interface that works with the most famous libraries:
 
-* Sidekiq
-* Resque
-* DelayedJob
-* Qu
-* Beanstalk/Backburner
+* [Sidekiq](http://mperham.github.com/sidekiq/)
+* [Resque](https://github.com/defunkt/resque/)
+* [DelayedJob](https://github.com/collectiveidea/delayed_job)
+* [Qu](https://github.com/bkeepers/qu)
+* [Beanstalk](https://github.com/kr/beanstalkd)/[Backburner](http://nesquena.github.com/backburner/)
 
 See an example:
 
