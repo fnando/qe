@@ -2,11 +2,6 @@ PATH
   remote: .
   specs:
     qe (0.1.2)
-      backburner
-      delayed_job_active_record
-      qu
-      resque
-      sidekiq
 
 GEM
   remote: http://rubygems.org/
@@ -24,7 +19,7 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     awesome_print (1.1.0)
-    backburner (0.2.0)
+    backburner (0.2.5)
       beaneater (~> 0.1.2)
       dante (~> 0.1.5)
     beaneater (0.1.2)
@@ -94,7 +89,12 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   awesome_print
+  backburner
+  delayed_job_active_record
   pry
   qe!
+  qu
+  resque
   rspec
+  sidekiq
   sqlite3

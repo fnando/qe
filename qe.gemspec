@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "sidekiq"
-  s.add_runtime_dependency "qu"
-  s.add_runtime_dependency "delayed_job_active_record"
-  s.add_runtime_dependency "backburner"
-  s.add_runtime_dependency "resque"
+  s.add_development_dependency "sidekiq"
+  s.add_development_dependency "qu"
+  s.add_development_dependency "delayed_job_active_record"
+  s.add_development_dependency "backburner"
+  s.add_development_dependency "resque"
 
   s.add_development_dependency "activerecord"
   s.add_development_dependency "awesome_print"
