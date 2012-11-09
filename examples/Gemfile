@@ -1,0 +1,14 @@
+source :rubygems
+
+gem "sidekiq"
+gem "backburner"
+gem "beanstalkd_view"
+gem "rake"
+gem "thin"
+gem "resque"
+gem "activerecord"
+gem "delayed_job_active_record"
+gem "sqlite3"
+gem "daemons"
+gem "qu-redis"
+gem "slim"

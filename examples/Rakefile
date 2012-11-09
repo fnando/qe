@@ -1,0 +1,14 @@
+require "backburner/tasks"
+require "resque/tasks"
+require "delayed/tasks"
+require "qu/tasks"
+
+task :environment do #=> required by Backburner
+  require "./workers"
+
+  Backburner.configure do |config|
+    config.logger = Logger.new(STDOUT)
+  end
+end
+
+task "resque:setup" => :environment

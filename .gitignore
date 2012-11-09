@@ -1,0 +1,4 @@
+.DS_Store
+*.sqlite3
+*.rdb
+pkg
