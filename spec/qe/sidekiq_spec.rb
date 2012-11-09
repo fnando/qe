@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe Qe::Sidekiq do
+  it "sets adapter when loading file" do
+    Qe.adapter = nil
+    load "qe/sidekiq.rb"
+    expect(Qe.adapter).to eql(Qe::Sidekiq)
+  end
+
   context "worker" do
     it "includes Sidekiq::Worker" do
       expect(Qe::Sidekiq::Worker.included_modules).to include(Sidekiq::Worker)

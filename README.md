@@ -14,16 +14,21 @@ interface that works with the most famous libraries:
 * [Qu](https://github.com/bkeepers/qu)
 * [Beanstalk](https://github.com/kr/beanstalkd)/[Backburner](http://nesquena.github.com/backburner/)
 
-To set the adater
+To set the adapter, just load the file according to your adapter:
 
 ``` ruby
-Qe.adapter = Qe::Sidekiq
-# Qe.adapter = Qe::Resque
-# Qe.adapter = Qe::Qu
-# Qe.adapter = Qe::DelayedJob
-# Qe.adapter = Qe::Beanstalk
-# Qe.adapter = Qe::Immediate  # development
-# Qe.adapter = Qe::Testing    # test
+require "qe/resque"
+require "qe/qu"
+require "qe/delayed_job"
+require "qe/beanstalk"
+```
+
+If you're using Rails with Bundler, you can simple require the correct file.
+
+``` ruby
+source :rubygems
+gem "rails", "3.2.8"
+gem "qe", :require => "qe/sidekiq"
 ```
 
 Create a worker that will send e-mails through `ActionMailer`.
@@ -85,6 +90,7 @@ instead. This will reset `Qe.jobs` before every spec and will add a
 `enqueue` matcher.
 
 ``` ruby
+# Add the following like to your spec_helper.rb file
 require "qe/testing/rspec"
 
 describe "Enqueuing a job" do

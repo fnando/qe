@@ -1,6 +1,13 @@
 require "spec_helper"
 
 describe Qe::DelayedJob do
+  it "sets adapter when loading file" do
+    Qe::DelayedJob.class_eval { remove_const "Worker" }
+    Qe.adapter = nil
+    load "qe/delayed_job.rb"
+    expect(Qe.adapter).to eql(Qe::DelayedJob)
+  end
+
   context "worker" do
     it "performs job" do
       job = Qe::DelayedJob::Worker.new("SomeWorker", :a => 1)

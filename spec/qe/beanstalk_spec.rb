@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe Qe::Beanstalk do
+  it "sets adapter when loading file" do
+    Qe.adapter = nil
+    load "qe/beanstalk.rb"
+    expect(Qe.adapter).to eql(Qe::Beanstalk)
+  end
+
   context "worker" do
     it "performs job" do
       Qe::Worker

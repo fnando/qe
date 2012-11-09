@@ -1,3 +1,6 @@
+require "qe"
+require "qu"
+
 module Qe
   class Qu
     class Worker
@@ -13,4 +16,6 @@ module Qe
       ::Qu.enqueue Worker, worker.name, options
     end
   end
+
+  self.adapter = Qu
 end

@@ -1,9 +1,4 @@
-require "qe/beanstalk"
-require "qe/delayed_job"
 require "qe/immediate"
-require "qe/qu"
-require "qe/resque"
-require "qe/sidekiq"
 require "qe/version"
 require "qe/worker"
 

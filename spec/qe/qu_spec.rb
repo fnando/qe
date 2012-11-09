@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe Qe::Qu do
+  it "sets adapter when loading file" do
+    Qe.adapter = nil
+    load "qe/qu.rb"
+    expect(Qe.adapter).to eql(Qe::Qu)
+  end
+
   context "worker" do
     it "performs job" do
       Qe::Worker

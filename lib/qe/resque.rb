@@ -1,3 +1,6 @@
+require "qe"
+require "resque"
+
 module Qe
   class Resque
     class Worker
@@ -11,4 +14,6 @@ module Qe
       ::Resque.enqueue Worker, worker.name, options
     end
   end
+
+  self.adapter = Resque
 end

@@ -1,3 +1,6 @@
+require "qe"
+require "delayed_job"
+
 module Qe
   class DelayedJob
     class Worker < Struct.new(:worker_name, :options)
@@ -10,4 +13,6 @@ module Qe
       Delayed::Job.enqueue Worker.new(worker.name, options), :queue => worker.queue
     end
   end
+
+  self.adapter = DelayedJob
 end

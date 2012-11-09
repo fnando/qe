@@ -1,3 +1,6 @@
+require "qe"
+require "backburner"
+
 module Qe
   class Beanstalk
     class Worker
@@ -13,4 +16,6 @@ module Qe
       Backburner.enqueue Worker, worker.name, options
     end
   end
+
+  self.adapter = Beanstalk
 end

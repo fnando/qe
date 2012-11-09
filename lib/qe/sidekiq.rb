@@ -1,3 +1,6 @@
+require "qe"
+require "sidekiq"
+
 module Qe
   class Sidekiq
     class Worker
@@ -13,4 +16,6 @@ module Qe
       Worker.perform_async(worker.name, options)
     end
   end
+
+  self.adapter = Sidekiq
 end

@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe Qe::Resque do
+  it "sets adapter when loading file" do
+    Qe.adapter = nil
+    load "qe/resque.rb"
+    expect(Qe.adapter).to eql(Qe::Resque)
+  end
+
   context "worker" do
     it "performs job" do
       Qe::Worker

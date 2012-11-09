@@ -2,6 +2,11 @@ PATH
   remote: .
   specs:
     qe (0.1.1)
+      backburner
+      delayed_job_active_record
+      qu
+      resque
+      sidekiq
 
 GEM
   remote: http://rubygems.org/
@@ -46,10 +51,6 @@ GEM
       slop (~> 3.3.1)
     qu (0.2.0)
       multi_json
-    qu-redis (0.2.0)
-      qu (= 0.2.0)
-      redis-namespace
-      simple_uuid
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -75,7 +76,6 @@ GEM
       multi_json (~> 1)
       redis (~> 3)
       redis-namespace
-    simple_uuid (0.2.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -94,12 +94,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   awesome_print
-  backburner
-  delayed_job_active_record
   pry
   qe!
-  qu-redis
-  resque
   rspec
-  sidekiq
   sqlite3
