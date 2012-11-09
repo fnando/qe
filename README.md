@@ -14,9 +14,7 @@ interface that works with the most famous libraries:
 * [Qu](https://github.com/bkeepers/qu)
 * [Beanstalk](https://github.com/kr/beanstalkd)/[Backburner](http://nesquena.github.com/backburner/)
 
-See an example:
-
-You can choose an adapter:
+To set the adater
 
 ``` ruby
 Qe.adapter = Qe::Sidekiq
@@ -24,9 +22,11 @@ Qe.adapter = Qe::Sidekiq
 # Qe.adapter = Qe::Qu
 # Qe.adapter = Qe::DelayedJob
 # Qe.adapter = Qe::Beanstalk
+# Qe.adapter = Qe::Immediate  # development
+# Qe.adapter = Qe::Testing    # test
 ```
 
-Create our worker that will send e-mails through `ActionMailer`.
+Create a worker that will send e-mails through `ActionMailer`.
 
 ``` ruby
 class MailerWorker
@@ -59,9 +59,19 @@ MailerWorker.enqueue({
 })
 ```
 
+## Development support
+
+Qe comes with development support. Instead of starting up workers on development environment, you can use the `Qe::Immediate` adapter, which executes your worker right away!
+
+``` ruby
+Qe.adapter = Qe::Immediate
+```
+
+If you're using Rails, you can add the line above to your `config/environments/development.rb` file.
+
 ## Testing support
 
-Qe comes with testing support. Just require the `qe/testing.rb` file
+Qe also comes with testing support. Just require the `qe/testing.rb` file
 and a fake queuing adapter will be used. All enqueued jobs will be stored
 at `Qe.jobs`. Note that this method is only available on testing mode.
 
