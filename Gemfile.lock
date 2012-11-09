@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qe (0.1.1)
+    qe (0.1.2)
       backburner
       delayed_job_active_record
       qu
