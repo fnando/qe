@@ -75,7 +75,41 @@ MailerWorker.enqueue({
 })
 ```
 
-## Development support
+### Defining actions
+
+Sometimes you want to create several actions in a single worker, just because is easier. Instead of manually dispatch the action on your perform method, you can
+just add the `Qe::Action` module.
+
+``` ruby
+class NotificationWorker
+  include Qe::Worker
+  include Qe::Action
+
+  def shutdown
+    puts options[:message]
+  end
+
+  def startup
+    puts options[:message]
+  end
+
+  def default
+    puts options[:message]
+  end
+end
+```
+
+Now, you can just enqueue jobs by defining the `:action` option. If no action is defined, then the default is executed.
+
+``` ruby
+NotificationWorker.enqueue(:action => :shutdown, :message => "shutting down")
+NotificationWorker.enqueue(:action => :startup, :message => "starting up")
+NotificationWorker.enqueue(:message => "wat?")
+```
+
+The action must be a existing public method. If not defined, `Qe::Action::MissingActionError` exception is raised.
+
+### Development support
 
 Qe comes with development support. Instead of starting up workers on development environment, you can use the `Qe::Immediate` adapter, which executes your worker right away!
 
@@ -85,7 +119,7 @@ Qe.adapter = Qe::Immediate
 
 If you're using Rails, you can add the line above to your `config/environments/development.rb` file.
 
-## Testing support
+### Testing support
 
 Qe also comes with testing support. Just require the `qe/testing.rb` file
 and a fake queuing adapter will be used. All enqueued jobs will be stored
@@ -114,13 +148,11 @@ end
 ```
 
 
-Maintainer
-----------
+## Maintainer
 
 * Nando Vieira (<http://nandovieira.com.br>)
 
-License:
---------
+## License:
 
 (The MIT License)
 

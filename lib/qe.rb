@@ -1,3 +1,4 @@
+require "qe/action"
 require "qe/immediate"
 require "qe/version"
 require "qe/worker"
