@@ -35,7 +35,13 @@ module Qe
     module ClassMethods
       # Enqueue job on given worker class.
       def enqueue(options = {})
-        Qe.adapter.enqueue(self, options)
+        run_at = options.delete(:run_at)
+
+        if run_at
+          Qe.adapter.schedule(self, run_at, options)
+        else
+          Qe.adapter.enqueue(self, options)
+        end
       end
 
       # Set the queue name when receiving on argument.

@@ -28,6 +28,18 @@ describe Qe::Worker do
     HelloWorker.enqueue(:a => 1)
   end
 
+  it "delegates scheduling to adapter" do
+    adapter = mock("adapter")
+    date = Time.now
+    adapter
+      .should_receive(:schedule)
+      .with(HelloWorker, date, :a => 1)
+
+    Qe.adapter = adapter
+
+    HelloWorker.enqueue(:a => 1, :run_at => date)
+  end
+
   it "finds worker by its name" do
     worker = mock("worker")
     stub_const "Some::Weird::Worker", worker
