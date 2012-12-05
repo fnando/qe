@@ -75,6 +75,17 @@ MailerWorker.enqueue({
 })
 ```
 
+You can specify when this job must be processed by setting the <tt>:run_at</tt> option.
+
+``` ruby
+MailerWorker.enqueue({
+  :mail => :follow_up,
+  :email => "john@example.org",
+  :name => "John Doe",
+  :run_at => 5.days.from_now
+})
+```
+
 ### Defining actions
 
 Sometimes you want to create several actions in a single worker, just because is easier. Instead of manually dispatch the action on your perform method, you can

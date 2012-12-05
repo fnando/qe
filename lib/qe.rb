@@ -50,6 +50,16 @@ require "qe/worker"
 #     :name => "John Doe"
 #   })
 #
+# You can specify when this job must be processed by setting the <tt>:run_at</tt>
+# option.
+#
+#   MailerWorker.enqueue({
+#     :mail => :follow_up,
+#     :email => "john@example.org",
+#     :name => "John Doe",
+#     :run_at => 5.days.from_now
+#   })
+#
 # == Testing support
 #
 # Qe comes with testing support. Just require the <tt>qe/testing.rb</tt> file
