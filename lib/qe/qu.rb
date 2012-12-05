@@ -4,8 +4,6 @@ require "qu"
 module Qe
   class Qu
     class Worker
-      include ::Sidekiq::Worker
-
       def self.perform(*args)
         Qe::Worker.perform(*args)
       end
@@ -14,6 +12,10 @@ module Qe
     def self.enqueue(worker, options = {})
       Worker.instance_variable_set("@queue", worker.queue)
       ::Qu.enqueue Worker, worker.name, options
+    end
+
+    def self.schedule(*)
+      raise UnsupportedFeatureError, "scheduling isn't supported on Qu"
     end
   end
 

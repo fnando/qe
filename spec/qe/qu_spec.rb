@@ -39,4 +39,12 @@ describe Qe::Qu do
       Qe::Qu.enqueue(worker, :a => 1)
     end
   end
+
+  context "scheduling" do
+    it "raises exception" do
+      expect {
+        Qe::Qu.schedule(stub, Time.now, :a => 1)
+      }.to raise_error(Qe::UnsupportedFeatureError)
+    end
+  end
 end

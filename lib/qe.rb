@@ -77,4 +77,8 @@ module Qe
   class << self
     attr_accessor :adapter
   end
+
+  # Error that is raised when trying to use a feature
+  # that isn't supported by some adapter.
+  UnsupportedFeatureError = Class.new(StandardError)
 end
