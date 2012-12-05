@@ -42,4 +42,33 @@ describe Qe::Beanstalk do
       Qe::Beanstalk.enqueue(worker, :a => 1)
     end
   end
+
+  context "scheduling" do
+    let(:worker) {
+      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+    }
+
+    let(:date) { Time.parse("2012-12-05 02:00:00") }
+
+    before do
+      Time.stub :now => date - 3600
+      Backburner::Worker.stub :enqueue
+    end
+
+    it "sets queue name" do
+      Qe::Beanstalk::Worker
+        .should_receive(:queue)
+        .with("some_queue")
+
+      Qe::Beanstalk.schedule(worker, date, :a => 1)
+    end
+
+    it "schedules job" do
+      ::Backburner::Worker
+        .should_receive(:enqueue)
+        .with(Qe::Beanstalk::Worker, ["SomeWorker", :a => 1], :delay => 3600)
+
+      Qe::Beanstalk.schedule(worker, date, :a => 1)
+    end
+  end
 end
