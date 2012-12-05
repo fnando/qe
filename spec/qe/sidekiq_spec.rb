@@ -46,4 +46,32 @@ describe Qe::Sidekiq do
       Qe::Sidekiq.enqueue(worker, :a => 1)
     end
   end
+
+  context "scheduling" do
+    let(:worker) {
+      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+    }
+
+    before do
+      Qe::Sidekiq::Worker.stub :perform_at
+    end
+
+    it "sets queue name" do
+      Qe::Sidekiq::Worker
+        .should_receive(:sidekiq_options)
+        .with(:queue => "some_queue")
+
+      Qe::Sidekiq.enqueue(worker)
+    end
+
+    it "schedules job" do
+      date = Time.now
+
+      Qe::Sidekiq::Worker
+        .should_receive(:perform_at)
+        .with(date, "SomeWorker", :a => 1)
+
+      Qe::Sidekiq.schedule(worker, date, :a => 1)
+    end
+  end
 end
