@@ -1,6 +1,8 @@
 require "qe/action"
 require "qe/immediate"
 require "qe/version"
+require "qe/worker/class_methods"
+require "qe/worker/instance_methods"
 require "qe/worker"
 
 # In this wild world where a new asynchronous job processing

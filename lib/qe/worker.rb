@@ -7,51 +7,6 @@ module Qe
       end
     end
 
-    module InstanceMethods
-      def initialize(options)
-        @options = options
-      end
-
-      # Return options that were provided when
-      # adding job to the queue.
-      def options
-        @options
-      end
-
-      # Set before hook.
-      def before
-      end
-
-      # Set after hook.
-      def after
-      end
-
-      # Set the error hook.
-      def error(error)
-        raise error
-      end
-    end
-
-    module ClassMethods
-      # Enqueue job on given worker class.
-      def enqueue(options = {})
-        run_at = options.delete(:run_at)
-
-        if run_at
-          Qe.adapter.schedule(self, run_at, options)
-        else
-          Qe.adapter.enqueue(self, options)
-        end
-      end
-
-      # Set the queue name when receiving on argument.
-      # Return queue name otherwise.
-      def queue(*args)
-        @queue = args.first unless args.empty?
-        (@queue || :default).to_s
-      end
-    end
-
     # Find a worker by its name.
     # If worker constant is not found, raises a +NameError+
     # exception.
