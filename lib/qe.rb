@@ -1,4 +1,5 @@
 require "qe/action"
+require "qe/locale"
 require "qe/immediate"
 require "qe/version"
 require "qe/worker/class_methods"
@@ -93,4 +94,8 @@ module Qe
   # Error that is raised when trying to use a feature
   # that isn't supported by some adapter.
   UnsupportedFeatureError = Class.new(StandardError)
+
+  # Error that is raised when trying to include a
+  # module before Qe::Worker is included.
+  OutOfOrderError = Class.new(StandardError)
 end

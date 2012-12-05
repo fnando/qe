@@ -120,6 +120,23 @@ NotificationWorker.enqueue(:message => "wat?")
 
 The action must be a existing public method. If not defined, `Qe::Action::MissingActionError` exception is raised.
 
+### Working with I18n
+
+When you're working in internationalized app, you need to perform some jobs with the correct locale set (sending an e-mail, maybe?). Instead of doing it manually, you can just use the `Qe::Locale` extension.
+
+This extension will set the `:locale` option when you enqueue some job and set it to `I18n.locale` when you perform it. Just include it after the `Qe::Worker` module.
+
+``` ruby
+class MailerWorker
+  include Qe::Worker
+  include Qe::Locale
+
+  def perform
+    Mailer.public_send(options[:mail], options).deliver
+  end
+end
+```
+
 ### Development support
 
 Qe comes with development support. Instead of starting up workers on development environment, you can use the `Qe::Immediate` adapter, which executes your worker right away!
@@ -141,7 +158,7 @@ require "qe/testing"
 Qe.adapter = Qe::Testing
 ```
 
-If you"re using RSpec, you can require the `qe/testing/rspec.rb` file
+If you are using RSpec, you can require the `qe/testing/rspec.rb` file
 instead. This will reset `Qe.jobs` before every spec and will add a
 `enqueue` matcher.
 

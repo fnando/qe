@@ -12,3 +12,4 @@ require "qe/delayed_job"
 require "delayed_job_active_record"
 
 require "support/hello_worker"
+require "support/localized_worker"
