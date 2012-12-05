@@ -1,14 +1,15 @@
-require "backburner/tasks"
-require "resque/tasks"
-require "delayed/tasks"
-require "qu/tasks"
+require "./workers"
 
 task :environment do #=> required by Backburner
-  require "./workers"
 
-  Backburner.configure do |config|
-    config.logger = Logger.new(STDOUT)
-  end
 end
 
 task "resque:setup" => :environment
+
+desc "Setup delayed job consumer"
+task :delayed_job do
+  ENV["QUEUES"] = "later,mail,default"
+  ENV.delete("QUEUE")
+  Rake::Task["jobs:work"].reenable
+  Rake::Task["jobs:work"].invoke
+end

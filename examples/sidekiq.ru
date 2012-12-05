@@ -1,6 +1,6 @@
 require "bundler"
-Bundler.setup(:default)
-Bundler.require(:default)
+Bundler.setup(:default, :sidekiq)
+Bundler.require(:default, :sidekiq)
 
 Sidekiq.configure_client do |config|
   config.redis = { :size => 1 }

@@ -1,20 +1,25 @@
-redis: redis-server redis.conf
+# redis: redis-server redis.conf
 # beanstalkd: beanstalkd
 
 # Uncomment the following lines to enable Sidekiq
-sidekiq: bundle exec sidekiq -r ./workers.rb -q default -q mail
-sidekiq_web: bundle exec thin -R sidekiq.ru -p 9292 -V start
+# sidekiq: bundle exec sidekiq -r ./workers.rb -q default -q mail -q later
+# sidekiq_web: bundle exec thin -R sidekiq.ru -p 9292 -V start
 
 # Uncomment the following lines to enable Beanstalk/Backburner
 # backburner: bundle exec rake backburner:work
 # beanstalkd_view: bundle exec thin -R beanstalkd.ru -p 9292 -V start
 
 # Uncomment the following line to enable DelayedJob
-# delayed_job: bundle exec rake jobs:work
+delayed_job: bundle exec rake delayed_job
+delayed_job_web: bundle exec thin -R delayed_job.ru -p 9292 -V start
 
 # Uncomment the following line to enable Qu
 # qu: bundle exec rake qu:work
 
 # Uncomment the following lines to enable Resque
 # resque: bundle exec rake resque:work
+# resque_scheduler: bundle exec rake resque:scheduler
 # resque_web: bundle exec thin -R resque.ru -p 9292 -V start
+
+# Add jobs every 3 seconds
+add_jobs: ruby add_jobs.rb

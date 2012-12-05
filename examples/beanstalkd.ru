@@ -1,5 +1,5 @@
 require "bundler"
-Bundler.setup(:default)
-Bundler.require(:default)
+Bundler.setup(:default, :beanstalk)
+Bundler.require(:default, :beanstalk)
 
 run BeanstalkdView::Server

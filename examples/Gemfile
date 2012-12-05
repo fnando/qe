@@ -1,14 +1,35 @@
 source :rubygems
 
-gem "sidekiq"
-gem "backburner"
-gem "beanstalkd_view"
 gem "rake"
 gem "thin"
-gem "resque"
-gem "activerecord"
-gem "delayed_job_active_record"
-gem "sqlite3"
 gem "daemons"
-gem "qu-redis"
-gem "slim"
+gem "pry"
+gem "pry-remote"
+gem "awesome_print"
+
+group :sidekiq do
+  gem "activesupport", :require => "active_support/all"
+  gem "sidekiq"
+  gem "slim"
+end
+
+group :resque do
+  gem "resque"
+  gem "resque-scheduler"
+end
+
+group :beanstalk do
+  gem "backburner"
+  gem "beanstalkd_view"
+end
+
+group :delayed_job do
+  gem "activerecord"
+  gem "delayed_job_active_record"
+  gem "delayed_job_web"
+  gem "sqlite3"
+end
+
+group :qu do
+  gem "qu-redis"
+end
