@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "delayed_job_active_record"
   s.add_development_dependency "backburner"
   s.add_development_dependency "resque"
+  s.add_development_dependency "resque-scheduler"
 
   s.add_development_dependency "activerecord"
   s.add_development_dependency "awesome_print"
