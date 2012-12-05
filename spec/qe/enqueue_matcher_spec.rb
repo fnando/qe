@@ -1,8 +1,6 @@
 require "spec_helper"
 
 describe Qe::EnqueueMatcher do
-  HelloWorker = Class.new { include Qe::Worker }
-
   it "sets adapter" do
     expect(Qe.adapter).to eql(Qe::Testing)
   end

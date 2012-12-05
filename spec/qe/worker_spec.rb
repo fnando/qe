@@ -1,12 +1,6 @@
 require "spec_helper"
 
 describe Qe::Worker do
-  HelloWorker = Class.new do
-    include Qe::Worker
-
-    def perform; end
-  end
-
   it "sets queue name" do
     HelloWorker.queue "hello"
     expect(HelloWorker.queue).to eql("hello")
@@ -85,8 +79,13 @@ describe Qe::Worker do
     end
 
     it "passes error object to error handler" do
-      HelloWorker.any_instance.should_receive(:error).with(kind_of(StandardError))
-      HelloWorker.any_instance.stub(:perform).and_raise("ZOMG!")
+      HelloWorker.any_instance
+        .should_receive(:error)
+        .with(kind_of(StandardError))
+
+      HelloWorker.any_instance
+        .stub(:perform)
+        .and_raise("ZOMG!")
 
       Qe::Worker.perform("HelloWorker", {})
     end

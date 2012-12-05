@@ -1,11 +1,6 @@
 require "spec_helper"
 
 describe Qe::Immediate do
-  HelloWorker = Class.new do
-    include Qe::Worker
-    def perform; end
-  end
-
   let(:job) { mock("job").as_null_object }
 
   it "sets options" do
