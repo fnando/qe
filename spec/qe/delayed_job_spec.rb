@@ -56,4 +56,43 @@ describe Qe::DelayedJob do
       Qe::DelayedJob.enqueue(worker, :a => 1)
     end
   end
+
+  context "scheduling" do
+    let(:worker) {
+      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+    }
+
+    let(:date) { Time.now }
+
+    before do
+      Delayed::Job.stub :enqueue
+    end
+
+    it "sets queue name" do
+      Delayed::Job
+        .should_receive(:enqueue)
+        .with(anything, hash_including(:queue => "some_queue"))
+
+      Qe::DelayedJob.schedule(worker, date, :a => 1)
+    end
+
+    it "instantiates worker" do
+      Qe::DelayedJob::Worker
+        .should_receive(:new)
+        .with("SomeWorker", :a => 1)
+
+      Qe::DelayedJob.schedule(worker, date, :a => 1)
+    end
+
+    it "schedules job" do
+      job = mock("job")
+      Qe::DelayedJob::Worker.stub :new => job
+
+      Delayed::Job
+        .should_receive(:enqueue)
+        .with(job, hash_including(:run_at => date))
+
+      Qe::DelayedJob.schedule(worker, date, :a => 1)
+    end
+  end
 end

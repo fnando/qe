@@ -10,7 +10,14 @@ module Qe
     end
 
     def self.enqueue(worker, options = {})
-      Delayed::Job.enqueue Worker.new(worker.name, options), :queue => worker.queue
+      Delayed::Job.enqueue Worker.new(worker.name, options),
+        :queue => worker.queue
+    end
+
+    def self.schedule(worker, run_at, options = {})
+      Delayed::Job.enqueue Worker.new(worker.name, options),
+        :queue => worker.queue,
+        :run_at => run_at
     end
   end
 
