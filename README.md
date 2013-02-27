@@ -137,6 +137,38 @@ class MailerWorker
 end
 ```
 
+### ActionMailer integration
+
+Qe comes with an extension to send e-mails through ActionMailer. You can set the mailer and which mail will be sent.
+
+```ruby
+class Mailer < ActionMailer::Base
+  def welcome(options)
+    @options = options
+    mail :to => options[:email]
+  end
+end
+
+class MailerWorker
+  include Qe::Worker
+  include Qe::ActionMailer
+
+  def mailer
+    Mailer
+  end
+end
+
+MailerWorker.enqueue(
+  :mail => :welcome,
+  :name => "John Doe",
+  :email => "john@example.org"
+)
+```
+
+If the `mailer()` method isn't defined, the `Qe::ActionMailer::AbstractMethodError` exception will be raised.
+
+If the `:mail` option isn't defined, the `Qe::ActionMailer::MissingMailNameError` exception will be raised.
+
 ### Development support
 
 Qe comes with development support. Instead of starting up workers on development environment, you can use the `Qe::Immediate` adapter, which executes your worker right away!
