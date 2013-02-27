@@ -137,6 +137,8 @@ class MailerWorker
 end
 ```
 
+This approach is good enough, but if you're using ActionMailer, try the `Qe::ActionMailer` instead, combining this extension as well.
+
 ### ActionMailer integration
 
 Qe comes with an extension to send e-mails through ActionMailer. You can set the mailer and which mail will be sent.
@@ -152,6 +154,7 @@ end
 class MailerWorker
   include Qe::Worker
   include Qe::ActionMailer
+  include Qe::Locale
 
   def mailer
     Mailer
