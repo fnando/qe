@@ -1,6 +1,5 @@
-require "bundler"
-Bundler.setup(:default, ENV.fetch("GROUP"))
-Bundler.require
+require "bundler/setup"
+Bundler.require(:default, ENV.fetch("GROUP"))
 
 require "time"
 

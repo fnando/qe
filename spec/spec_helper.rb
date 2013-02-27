@@ -1,5 +1,4 @@
-require "bundler"
-Bundler.setup(:default, :development)
+require "bundler/setup"
 Bundler.require(:default, :development)
 
 require "qe"

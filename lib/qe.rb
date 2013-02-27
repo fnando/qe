@@ -1,3 +1,5 @@
+require "active_support/hash_with_indifferent_access"
+
 require "qe/action"
 require "qe/locale"
 require "qe/immediate"

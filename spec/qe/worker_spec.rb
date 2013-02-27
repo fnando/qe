@@ -8,7 +8,14 @@ describe Qe::Worker do
 
   it "returns options" do
     hello = HelloWorker.new(:a => 1)
-    expect(hello.options).to eql(:a => 1)
+    expect(hello.options).to include(:a => 1)
+  end
+
+  it "returns options as HashWithIndifferentAccess" do
+    hello = HelloWorker.new("a" => 1)
+
+    expect(hello.options[:a]).to eql(1)
+    expect(hello.options["a"]).to eql(1)
   end
 
   it "delegates #enqueue to adapter" do
