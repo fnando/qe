@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Qe::Immediate do
-  let(:job) { mock("job").as_null_object }
+  let(:job) { double("job").as_null_object }
 
   it "sets options" do
     HelloWorker

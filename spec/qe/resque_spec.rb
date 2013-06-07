@@ -19,7 +19,7 @@ describe Qe::Resque do
 
   context "enqueuing" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do
@@ -44,7 +44,7 @@ describe Qe::Resque do
     let(:date) { Time.now }
 
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do

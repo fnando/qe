@@ -22,7 +22,7 @@ describe Qe::DelayedJob do
 
   context "enqueuing" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do
@@ -46,7 +46,7 @@ describe Qe::DelayedJob do
     end
 
     it "enqueues job" do
-      job = mock("job")
+      job = double("job")
       Qe::DelayedJob::Worker.stub :new => job
 
       Delayed::Job
@@ -59,7 +59,7 @@ describe Qe::DelayedJob do
 
   context "scheduling" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     let(:date) { Time.now }
@@ -85,7 +85,7 @@ describe Qe::DelayedJob do
     end
 
     it "schedules job" do
-      job = mock("job")
+      job = double("job")
       Qe::DelayedJob::Worker.stub :new => job
 
       Delayed::Job

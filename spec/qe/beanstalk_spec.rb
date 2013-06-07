@@ -19,7 +19,7 @@ describe Qe::Beanstalk do
 
   context "enqueuing" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do
@@ -45,7 +45,7 @@ describe Qe::Beanstalk do
 
   context "scheduling" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     let(:date) { Time.parse("2012-12-05 02:00:00") }

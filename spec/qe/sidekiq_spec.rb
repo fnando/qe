@@ -23,7 +23,7 @@ describe Qe::Sidekiq do
 
   context "enqueuing" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do
@@ -49,7 +49,7 @@ describe Qe::Sidekiq do
 
   context "scheduling" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do

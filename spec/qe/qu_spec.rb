@@ -19,7 +19,7 @@ describe Qe::Qu do
 
   context "enqueuing" do
     let(:worker) {
-      mock("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker")
     }
 
     before do
@@ -43,7 +43,7 @@ describe Qe::Qu do
   context "scheduling" do
     it "raises exception" do
       expect {
-        Qe::Qu.schedule(stub, Time.now, :a => 1)
+        Qe::Qu.schedule(double, Time.now, :a => 1)
       }.to raise_error(Qe::UnsupportedFeatureError)
     end
   end

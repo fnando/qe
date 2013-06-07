@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Qe::Locale do
-  let(:i18n) { mock("I18n", :locale => :en) }
+  let(:i18n) { double("I18n", :locale => :en) }
 
   before do
     stub_const("I18n", i18n)

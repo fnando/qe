@@ -19,7 +19,7 @@ describe Qe::Worker do
   end
 
   it "delegates #enqueue to adapter" do
-    adapter = mock("adapter")
+    adapter = double("adapter")
     adapter
       .should_receive(:enqueue)
       .with(HelloWorker, :a => 1)
@@ -30,7 +30,7 @@ describe Qe::Worker do
   end
 
   it "delegates scheduling to adapter" do
-    adapter = mock("adapter")
+    adapter = double("adapter")
     date = Time.now
     adapter
       .should_receive(:schedule)
@@ -42,7 +42,7 @@ describe Qe::Worker do
   end
 
   it "finds worker by its name" do
-    worker = mock("worker")
+    worker = double("worker")
     stub_const "Some::Weird::Worker", worker
 
     expect(Qe::Worker.find("Some::Weird::Worker")).to eql(worker)
@@ -62,7 +62,7 @@ describe Qe::Worker do
       HelloWorker
         .should_receive(:new)
         .with(:a => 1)
-        .and_return(mock.as_null_object)
+        .and_return(double.as_null_object)
 
       Qe::Worker.perform("HelloWorker", :a => 1)
     end

@@ -8,7 +8,7 @@ describe Qe::ActionMailer do
     end
   }
 
-  let(:mailer) { stub(:mailer) }
+  let(:mailer) { double(:mailer) }
 
   subject(:job) {
     worker.new(
@@ -48,7 +48,7 @@ describe Qe::ActionMailer do
 
   describe "#perform" do
     it "delivers e-mail" do
-      mail = stub(:mail)
+      mail = double(:mail)
       job.stub :mail => mail
 
       mail.should_receive(:deliver)
