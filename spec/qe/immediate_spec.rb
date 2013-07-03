@@ -18,4 +18,14 @@ describe Qe::Immediate do
 
     Qe::Immediate.enqueue(HelloWorker)
   end
+
+  it "schedules job" do
+    date = Time.now
+
+    Qe::Immediate
+      .should_receive(:enqueue)
+      .with(HelloWorker, :a => 1)
+
+    Qe::Immediate.schedule(HelloWorker, date, :a => 1)
+  end
 end
