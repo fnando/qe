@@ -75,7 +75,7 @@ MailerWorker.enqueue({
 })
 ```
 
-You can specify when this job must be processed by setting the <tt>:run_at</tt> option.
+You can specify when this job must be processed by setting the `:run_at` option.
 
 ``` ruby
 MailerWorker.enqueue({
@@ -84,6 +84,18 @@ MailerWorker.enqueue({
   :name => "John Doe",
   :run_at => 5.days.from_now
 })
+```
+
+### Setting the queue name
+
+Sometimes setting the queue name is important.
+
+```ruby
+class HelloWorker
+  include Qe::Worker
+
+  queue :hello
+end
 ```
 
 ### Defining actions
