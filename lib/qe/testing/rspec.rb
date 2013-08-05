@@ -24,13 +24,15 @@ module Qe
       def matches?(block)
         block.call
 
-        jobs.any? do |job|
+        result = jobs.any? do |job|
           condition = job[:worker] == worker
           condition = condition && datetime? if scheduled
           condition = condition && job[:options] == options if options
           condition = condition && job[:run_at].to_i == date.to_i if date
           condition
-        end != nil
+        end
+
+        !!result
       end
 
       def does_not_match?(block)
@@ -77,7 +79,7 @@ module Qe
     #   expect {}.to enqueue(MailerWorker).with(options)
     #
     def enqueue(worker)
-      Matcher.new(worker, true)
+      Matcher.new(worker, false)
     end
 
     #

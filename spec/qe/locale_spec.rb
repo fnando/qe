@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Qe::Locale do
-  let(:i18n) { double("I18n", :locale => :en) }
+  let(:i18n) { double("I18n", locale: :en) }
 
   before do
     stub_const("I18n", i18n)
@@ -38,21 +38,24 @@ describe Qe::Locale do
     it "sets locale" do
       expect {
         LocalizedWorker.enqueue
-      }.to enqueue(LocalizedWorker).with(:locale => :en)
+      }.to enqueue(LocalizedWorker).with(locale: :en)
+    end
+
+    it "keeps defined locale" do
+      expect {
+        LocalizedWorker.enqueue(locale: "pt-BR")
+      }.to enqueue(LocalizedWorker).with(locale: "pt-BR")
     end
   end
 
   context "when performing" do
-    before do
-      Qe.adapter = Qe::Immediate
-    end
-
     it "sets locale" do
       i18n
         .should_receive(:locale=)
         .with(:en)
 
       LocalizedWorker.enqueue
+      Qe.drain
     end
   end
 end

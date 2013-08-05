@@ -10,14 +10,14 @@ module Qe
         # the current locale to the options.
         enqueue = instance_method(:enqueue)
         define_method :enqueue do |options = {}|
-          options[:locale] = I18n.locale
+          options[:locale] ||= I18n.locale
           enqueue.bind(self).call(options)
         end
       end
 
       base.class_eval do
-        # Intercept <tt>Worker#before</tt> method, adding
-        # the setting the current locale.
+        # Intercept <tt>Worker#before</tt> method and
+        # set the current locale.
         before = instance_method(:before)
         define_method :before do
           I18n.locale = options.delete(:locale)
