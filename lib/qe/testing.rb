@@ -3,6 +3,12 @@ module Qe
     @jobs ||= []
   end
 
+  def self.drain
+    jobs.each do |job|
+      Qe::Worker.perform(job[:worker].name, job[:options])
+    end
+  end
+
   class Testing
     def self.enqueue(worker, options = {})
       Qe.jobs << {worker: worker, options: options}

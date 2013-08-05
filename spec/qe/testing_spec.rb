@@ -18,4 +18,18 @@ describe Qe::Testing do
 
     expect(job).to include(run_at: date)
   end
+
+  it "runs jobs" do
+    Qe::Testing.enqueue(HelloWorker, a: 1)
+
+    instance = double.as_null_object
+    instance.should_receive(:perform)
+
+    HelloWorker
+      .should_receive(:new)
+      .with(a: 1)
+      .and_return(instance)
+
+    Qe.drain
+  end
 end
