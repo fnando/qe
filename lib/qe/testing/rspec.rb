@@ -3,10 +3,12 @@ require "qe/testing"
 module Qe
   module EnqueueMatcher
     class Matcher
-      attr_reader :worker, :options
+      attr_reader :worker, :options, :date, :scheduled
 
-      def initialize(worker)
+      def initialize(worker, scheduled)
         @worker = worker
+        @options = nil
+        @scheduled = scheduled
       end
 
       def with(options)
@@ -14,14 +16,32 @@ module Qe
         self
       end
 
+      def on(date)
+        @date = date
+        self
+      end
+
       def matches?(block)
         block.call
 
-        Qe.jobs.find do |job|
+        jobs.any? do |job|
           condition = job[:worker] == worker
+          condition = condition && datetime? if scheduled
           condition = condition && job[:options] == options if options
+          condition = condition && job[:run_at].to_i == date.to_i if date
           condition
         end != nil
+      end
+
+      def does_not_match?(block)
+        block.call
+
+        jobs.none? do |job|
+          condition = job[:worker] != worker
+          condition = condition && job[:options] != options if options
+          condition = condition && job[:run_at].to_i != date.to_i if date
+          condition
+        end
       end
 
       def description
@@ -37,7 +57,19 @@ module Qe
       end
 
       def build_message(base)
-        base << (options.empty? ? "" : " with #{options.inspect}")
+        base << ((options || {}).empty? ? "" : " with #{options.inspect}")
+        base << " on #{date.inspect}" if date
+        base
+      end
+
+      def jobs
+        Qe.jobs.select do |job|
+          scheduled ? job.key?(:run_at) : true
+        end
+      end
+
+      def datetime?
+        [Date, Time, DateTime].find {|klass| date.kind_of?(klass) }
       end
     end
 
@@ -45,7 +77,14 @@ module Qe
     #   expect {}.to enqueue(MailerWorker).with(options)
     #
     def enqueue(worker)
-      Matcher.new(worker)
+      Matcher.new(worker, true)
+    end
+
+    #
+    #   expect {}.to schedule(MailerWorker).on(Time.now).with(options)
+    #
+    def schedule(worker)
+      Matcher.new(worker, true)
     end
   end
 end

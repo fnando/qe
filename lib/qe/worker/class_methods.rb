@@ -12,7 +12,7 @@ module Qe
         end
       end
 
-      # Set the queue name when receiving on argument.
+      # Set the queue name when receiving one argument.
       # Return queue name otherwise.
       def queue(*args)
         @queue = args.first unless args.empty?

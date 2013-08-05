@@ -5,7 +5,11 @@ module Qe
 
   class Testing
     def self.enqueue(worker, options = {})
-      Qe.jobs << {:worker => worker, :options => options}
+      Qe.jobs << {worker: worker, options: options}
+    end
+
+    def self.schedule(worker, run_at, options = {})
+      Qe.jobs << {worker: worker, options: options, run_at: run_at}
     end
   end
 end
