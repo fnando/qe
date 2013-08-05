@@ -11,8 +11,8 @@ module Qe
         @scheduled = scheduled
       end
 
-      def with(options)
-        @options = options
+      def with(options = nil, &block)
+        @options = block || options
         self
       end
 
@@ -27,7 +27,7 @@ module Qe
         result = jobs.any? do |job|
           condition = job[:worker] == worker
           condition = condition && datetime? if scheduled
-          condition = condition && job[:options] == options if options
+          condition = condition && job[:options] == (options.kind_of?(Proc) ? options.call : options) if options
           condition = condition && job[:run_at].to_i == date.to_i if date
           condition
         end
@@ -40,7 +40,7 @@ module Qe
 
         jobs.none? do |job|
           condition = job[:worker] != worker
-          condition = condition && job[:options] != options if options
+          condition = condition && job[:options] != (options.kind_of?(Proc) ? options.call : options) if options
           condition = condition && job[:run_at].to_i != date.to_i if date
           condition
         end

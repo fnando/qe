@@ -11,6 +11,12 @@ describe Qe::EnqueueMatcher do
     }.to enqueue(HelloWorker).with(a: 1)
   end
 
+  it "enqueues job with options as a block" do
+    expect {
+      HelloWorker.enqueue(a: 1)
+    }.to enqueue(HelloWorker).with { {a: 1} }
+  end
+
   it "enqueues job without mentioning options" do
     expect {
       HelloWorker.enqueue(a: 1)
