@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qe (0.3.2)
+    qe (0.3.3)
       activesupport
 
 GEM
