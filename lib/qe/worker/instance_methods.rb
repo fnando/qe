@@ -2,7 +2,7 @@ module Qe
   module Worker
     module InstanceMethods
       def initialize(options)
-        @options = options.with_indifferent_access
+        @options = HashWithIndifferentAccess.new(options)
       end
 
       # Return options that were provided when
