@@ -23,6 +23,7 @@ module Qe
 
       def matches?(block)
         block.call
+        @options = @options.call if @options.respond_to?(:call)
 
         result = jobs.any? do |job|
           condition = job[:worker] == worker
