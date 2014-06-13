@@ -11,6 +11,10 @@ module Qe
         @scheduled = scheduled
       end
 
+      def supports_block_expectations?
+        true
+      end
+
       def with(options = nil, &block)
         @options = block || options
         self
