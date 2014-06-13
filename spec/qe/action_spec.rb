@@ -16,14 +16,14 @@ describe Qe::Action do
   end
 
   it "performs specified action" do
-    job.should_receive(:hello)
+    expect(job).to receive(:hello)
     job.options[:action] = :hello
 
     job.perform
   end
 
   it "executes default action when have no action" do
-    job.should_receive(:default)
+    expect(job).to receive(:default)
     job.perform
   end
 

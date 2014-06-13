@@ -1,6 +1,6 @@
 require "qe"
 require "resque"
-require "resque_scheduler"
+require "resque-scheduler"
 
 module Qe
   class Resque

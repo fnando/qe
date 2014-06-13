@@ -28,10 +28,10 @@ describe Qe::ActionMailer do
     end
 
     it "returns object for :mail option" do
-      job.stub :mailer => mailer
+      allow(job).to receive(:mailer).and_return(mailer)
 
-      mailer
-        .should_receive(:hello)
+      expect(mailer)
+        .to receive(:hello)
         .with(job.options)
 
       job.mail
@@ -49,9 +49,8 @@ describe Qe::ActionMailer do
   describe "#perform" do
     it "delivers e-mail" do
       mail = double(:mail)
-      job.stub :mail => mail
-
-      mail.should_receive(:deliver)
+      allow(job).to receive_messages(:mail => mail)
+      expect(mail).to receive(:deliver)
 
       job.perform
     end

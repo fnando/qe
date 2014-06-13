@@ -20,8 +20,8 @@ describe Qe::Worker do
 
   it "delegates #enqueue to adapter" do
     adapter = double("adapter")
-    adapter
-      .should_receive(:enqueue)
+    expect(adapter)
+      .to receive(:enqueue)
       .with(HelloWorker, :a => 1)
 
     Qe.adapter = adapter
@@ -32,8 +32,8 @@ describe Qe::Worker do
   it "delegates scheduling to adapter" do
     adapter = double("adapter")
     date = Time.now
-    adapter
-      .should_receive(:schedule)
+    expect(adapter)
+      .to receive(:schedule)
       .with(HelloWorker, date, :a => 1)
 
     Qe.adapter = adapter
@@ -50,8 +50,8 @@ describe Qe::Worker do
 
   describe "#perform" do
     it "finds worker by its name" do
-      Qe::Worker
-        .should_receive(:find)
+      expect(Qe::Worker)
+        .to receive(:find)
         .with("HelloWorker")
         .and_return(HelloWorker)
 
@@ -59,8 +59,8 @@ describe Qe::Worker do
     end
 
     it "initializes worker with provided options" do
-      HelloWorker
-        .should_receive(:new)
+      expect(HelloWorker)
+        .to receive(:new)
         .with(:a => 1)
         .and_return(double.as_null_object)
 
@@ -69,16 +69,16 @@ describe Qe::Worker do
 
     it "performs job" do
       worker = HelloWorker.new({})
-      HelloWorker.stub :new => worker
-      worker.should_receive(:before).ordered
-      worker.should_receive(:perform).ordered
-      worker.should_receive(:after).ordered
+      allow(HelloWorker).to receive_messages :new => worker
+      expect(worker).to receive(:before).ordered
+      expect(worker).to receive(:perform).ordered
+      expect(worker).to receive(:after).ordered
 
       Qe::Worker.perform("HelloWorker", {})
     end
 
     it "triggers default error handler" do
-      HelloWorker.any_instance.stub(:perform).and_raise("ZOMG!")
+      allow_any_instance_of(HelloWorker).to receive(:perform).and_raise("ZOMG!")
 
       expect {
         Qe::Worker.perform("HelloWorker", {})
@@ -86,12 +86,12 @@ describe Qe::Worker do
     end
 
     it "passes error object to error handler" do
-      HelloWorker.any_instance
-        .should_receive(:error)
+      expect_any_instance_of(HelloWorker)
+        .to receive(:error)
         .with(kind_of(StandardError))
 
-      HelloWorker.any_instance
-        .stub(:perform)
+      allow_any_instance_of(HelloWorker)
+        .to receive(:perform)
         .and_raise("ZOMG!")
 
       Qe::Worker.perform("HelloWorker", {})

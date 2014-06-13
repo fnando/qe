@@ -9,8 +9,8 @@ describe Qe::Qu do
 
   context "worker" do
     it "performs job" do
-      Qe::Worker
-        .should_receive(:perform)
+      expect(Qe::Worker)
+        .to receive(:perform)
         .with(:a, :b, :c)
 
       Qe::Qu::Worker.perform(:a, :b, :c)
@@ -23,7 +23,7 @@ describe Qe::Qu do
     }
 
     before do
-      Qu.stub :enqueue
+      allow(Qu).to receive :enqueue
     end
 
     it "sets queue name" do
@@ -32,8 +32,8 @@ describe Qe::Qu do
     end
 
     it "enqueues job" do
-      ::Qu
-        .should_receive(:enqueue)
+      expect(::Qu)
+        .to receive(:enqueue)
         .with(Qe::Qu::Worker, "SomeWorker", :a => 1)
 
       Qe::Qu.enqueue(worker, :a => 1)

@@ -13,8 +13,8 @@ describe Qe::Sidekiq do
     end
 
     it "performs job" do
-      Qe::Worker
-        .should_receive(:perform)
+      expect(Qe::Worker)
+        .to receive(:perform)
         .with(:a, :b, :c)
 
       Qe::Sidekiq::Worker.new.perform(:a, :b, :c)
@@ -27,21 +27,19 @@ describe Qe::Sidekiq do
     }
 
     before do
-      Qe::Sidekiq::Worker.stub :perform_async
+      allow(Qe::Sidekiq::Worker).to receive :perform_async
     end
 
     it "sets queue name" do
-      Qe::Sidekiq::Worker
-        .should_receive(:sidekiq_options)
-        .with(:queue => "some_queue")
+      expect(Qe::Sidekiq::Worker).to  receive(:sidekiq_options)
+                                          .with(:queue => "some_queue")
 
       Qe::Sidekiq.enqueue(worker)
     end
 
     it "enqueues job" do
-      Qe::Sidekiq::Worker
-        .should_receive(:perform_async)
-        .with("SomeWorker", :a => 1)
+      expect(Qe::Sidekiq::Worker).to receive(:perform_async)
+                                        .with("SomeWorker", :a => 1)
 
       Qe::Sidekiq.enqueue(worker, :a => 1)
     end
@@ -53,13 +51,12 @@ describe Qe::Sidekiq do
     }
 
     before do
-      Qe::Sidekiq::Worker.stub :perform_at
+      allow(Qe::Sidekiq::Worker).to receive(:perform_at)
     end
 
     it "sets queue name" do
-      Qe::Sidekiq::Worker
-        .should_receive(:sidekiq_options)
-        .with(:queue => "some_queue")
+      expect(Qe::Sidekiq::Worker).to receive(:sidekiq_options)
+                                        .with(:queue => "some_queue")
 
       Qe::Sidekiq.enqueue(worker)
     end
@@ -67,9 +64,8 @@ describe Qe::Sidekiq do
     it "schedules job" do
       date = Time.now
 
-      Qe::Sidekiq::Worker
-        .should_receive(:perform_at)
-        .with(date, "SomeWorker", :a => 1)
+      expect(Qe::Sidekiq::Worker).to receive(:perform_at)
+                                        .with(date, "SomeWorker", :a => 1)
 
       Qe::Sidekiq.schedule(worker, date, :a => 1)
     end

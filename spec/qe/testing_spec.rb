@@ -23,10 +23,10 @@ describe Qe::Testing do
     Qe::Testing.enqueue(HelloWorker, a: 1)
 
     instance = double.as_null_object
-    instance.should_receive(:perform)
+    expect(instance).to receive(:perform)
 
-    HelloWorker
-      .should_receive(:new)
+    expect(HelloWorker)
+      .to receive(:new)
       .with(a: 1)
       .and_return(instance)
 

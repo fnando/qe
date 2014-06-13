@@ -4,8 +4,8 @@ describe Qe::Immediate do
   let(:job) { double("job").as_null_object }
 
   it "sets options" do
-    HelloWorker
-      .should_receive(:new)
+    expect(HelloWorker)
+      .to receive(:new)
       .with(:a => 1)
       .and_return(job)
 
@@ -13,8 +13,8 @@ describe Qe::Immediate do
   end
 
   it "performs job" do
-    HelloWorker.stub :new => job
-    job.should_receive(:perform)
+    allow(HelloWorker).to receive_messages :new => job
+    expect(job).to receive(:perform)
 
     Qe::Immediate.enqueue(HelloWorker)
   end
@@ -22,8 +22,8 @@ describe Qe::Immediate do
   it "schedules job" do
     date = Time.now
 
-    Qe::Immediate
-      .should_receive(:enqueue)
+    expect(Qe::Immediate)
+      .to receive(:enqueue)
       .with(HelloWorker, :a => 1)
 
     Qe::Immediate.schedule(HelloWorker, date, :a => 1)

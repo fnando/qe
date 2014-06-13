@@ -9,8 +9,8 @@ describe Qe::Beanstalk do
 
   context "worker" do
     it "performs job" do
-      Qe::Worker
-        .should_receive(:perform)
+      expect(Qe::Worker)
+        .to receive(:perform)
         .with(:a, :b, :c)
 
       Qe::Beanstalk::Worker.perform(:a, :b, :c)
@@ -23,20 +23,20 @@ describe Qe::Beanstalk do
     }
 
     before do
-      Backburner.stub :enqueue
+      allow(Backburner).to receive(:enqueue)
     end
 
     it "sets queue name" do
-      Qe::Beanstalk::Worker
-        .should_receive(:queue)
+      expect(Qe::Beanstalk::Worker)
+        .to receive(:queue)
         .with("some_queue")
 
       Qe::Beanstalk.enqueue(worker)
     end
 
     it "enqueues job" do
-      ::Backburner
-        .should_receive(:enqueue)
+      expect(::Backburner)
+        .to receive(:enqueue)
         .with(Qe::Beanstalk::Worker, "SomeWorker", :a => 1)
 
       Qe::Beanstalk.enqueue(worker, :a => 1)
@@ -51,22 +51,21 @@ describe Qe::Beanstalk do
     let(:date) { Time.parse("2012-12-05 02:00:00") }
 
     before do
-      Time.stub :now => date - 3600
-      Backburner::Worker.stub :enqueue
+      allow(Time).to receive_messages(:now => date - 3600)
+      allow(Backburner::Worker).to receive(:enqueue)
     end
 
     it "sets queue name" do
-      Qe::Beanstalk::Worker
-        .should_receive(:queue)
+      expect(Qe::Beanstalk::Worker)
+        .to receive(:queue)
         .with("some_queue")
 
       Qe::Beanstalk.schedule(worker, date, :a => 1)
     end
 
     it "schedules job" do
-      ::Backburner::Worker
-        .should_receive(:enqueue)
-        .with(Qe::Beanstalk::Worker, ["SomeWorker", :a => 1], :delay => 3600)
+      expect(::Backburner::Worker).to receive(:enqueue)
+                                      .with(Qe::Beanstalk::Worker, ["SomeWorker", :a => 1], :delay => 3600)
 
       Qe::Beanstalk.schedule(worker, date, :a => 1)
     end

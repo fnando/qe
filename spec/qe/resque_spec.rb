@@ -9,8 +9,8 @@ describe Qe::Resque do
 
   context "worker" do
     it "performs job" do
-      Qe::Worker
-        .should_receive(:perform)
+      expect(Qe::Worker)
+        .to receive(:perform)
         .with(:a, :b, :c)
 
       Qe::Resque::Worker.perform(:a, :b, :c)
@@ -23,7 +23,7 @@ describe Qe::Resque do
     }
 
     before do
-      Resque.stub :enqueue
+      allow(Resque).to receive(:enqueue)
     end
 
     it "sets queue name" do
@@ -32,8 +32,8 @@ describe Qe::Resque do
     end
 
     it "enqueues job" do
-      ::Resque
-        .should_receive(:enqueue)
+      expect(::Resque)
+        .to receive(:enqueue)
         .with(Qe::Resque::Worker, "SomeWorker", :a => 1)
 
       Qe::Resque.enqueue(worker, :a => 1)
@@ -48,7 +48,7 @@ describe Qe::Resque do
     }
 
     before do
-      Resque.stub :enqueue_at => nil, :remove_delayed => nil
+      allow(Resque).to receive_messages(:enqueue_at => nil, :remove_delayed => nil)
     end
 
     it "sets queue name" do
@@ -57,8 +57,8 @@ describe Qe::Resque do
     end
 
     it "schedules job" do
-      ::Resque
-        .should_receive(:enqueue_at)
+      expect(::Resque)
+        .to receive(:enqueue_at)
         .with(date, Qe::Resque::Worker, "SomeWorker", :a => 1)
 
       Qe::Resque.schedule(worker, date, :a => 1)

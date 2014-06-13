@@ -50,8 +50,8 @@ describe Qe::Locale do
 
   context "when performing" do
     it "sets locale" do
-      i18n
-        .should_receive(:locale=)
+      expect(i18n)
+        .to receive(:locale=)
         .with(:en)
 
       LocalizedWorker.enqueue

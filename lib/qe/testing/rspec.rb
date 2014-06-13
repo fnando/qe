@@ -55,13 +55,15 @@ module Qe
         "enqueue job for #{worker.inspect} worker"
       end
 
-      def failure_message_for_should
+      def failure_message
         build_message "expect #{worker.inspect} to be enqueued"
       end
+      alias_method :failure_message_for_should, :failure_message
 
-      def failure_message_for_should_not
+      def failure_message_when_negated
         build_message "expect #{worker.inspect} not to be enqueued"
       end
+      alias_method :failure_message_for_should_not, :failure_message_when_negated
 
       def build_message(base)
         base << ((options || {}).empty? ? "" : " with #{options.inspect}")
