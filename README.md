@@ -184,6 +184,23 @@ If the `mailer()` method isn't defined, the `Qe::ActionMailer::AbstractMethodErr
 
 If the `:mail` option isn't defined, the `Qe::ActionMailer::MissingMailNameError` exception will be raised.
 
+### Sidekiq
+
+You can set Sidekiq options by using the method `Sidekiq::Worker.options`.
+
+```ruby
+require 'qe/sidekiq'
+
+class NonRetryableWorker
+  include Qe::Worker
+  options retry: false
+
+  def perform
+    # do something...
+  end
+end
+```
+
 ### Development support
 
 Qe comes with development support. Instead of starting up workers on development environment, you can use the `Qe::Immediate` adapter, which executes your worker right away!
@@ -221,7 +238,6 @@ describe "Enqueuing a job" do
   end
 end
 ```
-
 
 ## Maintainer
 

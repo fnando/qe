@@ -12,12 +12,12 @@ module Qe
     end
 
     def self.enqueue(worker, options = {})
-      Worker.sidekiq_options :queue => worker.queue
+      Worker.sidekiq_options worker.options.merge(:queue => worker.queue)
       Worker.perform_async(worker.name, options)
     end
 
     def self.schedule(worker, run_at, options = {})
-      Worker.sidekiq_options :queue => worker.queue
+      Worker.sidekiq_options worker.options.merge(:queue => worker.queue)
       Worker.perform_at(run_at, worker.name, options)
     end
   end

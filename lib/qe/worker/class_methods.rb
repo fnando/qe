@@ -18,6 +18,12 @@ module Qe
         @queue = args.first unless args.empty?
         (@queue || :default).to_s
       end
+
+      # Set the queue options.
+      def options(*args)
+        @options = args.first unless args.empty?
+        @options || {}
+      end
     end
   end
 end

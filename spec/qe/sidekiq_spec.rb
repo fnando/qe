@@ -23,7 +23,7 @@ describe Qe::Sidekiq do
 
   context "enqueuing" do
     let(:worker) {
-      double("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker", :options => {})
     }
 
     before do
@@ -43,11 +43,22 @@ describe Qe::Sidekiq do
 
       Qe::Sidekiq.enqueue(worker, :a => 1)
     end
+
+    it "sets options" do
+      worker = Class.new do
+        include Qe::Worker
+        options :retry => false
+      end
+
+      expect(Qe::Sidekiq::Worker).to  receive(:sidekiq_options)
+                                        .with(hash_including(:retry => false))
+      Qe::Sidekiq.enqueue(worker)
+    end
   end
 
   context "scheduling" do
     let(:worker) {
-      double("worker", :queue => "some_queue", :name => "SomeWorker")
+      double("worker", :queue => "some_queue", :name => "SomeWorker", :options => {})
     }
 
     before do
@@ -58,7 +69,7 @@ describe Qe::Sidekiq do
       expect(Qe::Sidekiq::Worker).to receive(:sidekiq_options)
                                         .with(:queue => "some_queue")
 
-      Qe::Sidekiq.enqueue(worker)
+      Qe::Sidekiq.schedule(worker, Time.now)
     end
 
     it "schedules job" do
@@ -68,6 +79,19 @@ describe Qe::Sidekiq do
                                         .with(date, "SomeWorker", :a => 1)
 
       Qe::Sidekiq.schedule(worker, date, :a => 1)
+    end
+
+    it "sets options" do
+      Qe.adapter = Qe::Sidekiq
+
+      worker = Class.new do
+        include Qe::Worker
+        options :retry => false
+      end
+
+      expect(Qe::Sidekiq::Worker).to  receive(:sidekiq_options)
+                                        .with(hash_including(:retry => false))
+      Qe::Sidekiq.schedule(worker, Time.now)
     end
   end
 end
